@@ -10,14 +10,111 @@ public class Main {
 */
 
 
+// 블랙리스트
+/*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
 public class Main {
 
-	public static void main(String[] args) {
+	static BufferedReader br;
+	static StringTokenizer token;
+	static int h, w;
+	static int bh,bw;
+	static int map[][];
+	static int b_map[][];
+	static int DE;
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
+		HashMap<Integer,Integer> hash_map = new HashMap<Integer,Integer>();
+		br=new BufferedReader(new InputStreamReader(System.in));
+		token=new StringTokenizer(br.readLine());
+		h=Integer.parseInt(token.nextToken());
+		w=Integer.parseInt(token.nextToken());
+		map=new int[h][w];
+		
+		for(int i=0;i<h;i++) {
+			token=new StringTokenizer(br.readLine());	
+			for(int j=0;j<w;j++) {
+				map[i][j]=Integer.parseInt(token.nextToken());
+				if(hash_map.get(map[i][j])!=null) {
+					int temp = hash_map.get(map[i][j])+1;
+					hash_map.put(map[i][j],temp);
+					DE=12;
+				}else {
+					hash_map.put(map[i][j],1);
+				}
+				
+			}
+		}
+		DE=12;
+		token=new StringTokenizer(br.readLine());
+		bh=Integer.parseInt(token.nextToken());
+		bw=Integer.parseInt(token.nextToken());
+		b_map=new int[bh][bw];
+		int b_sum=0;
+		
+		for(int i=0;i<bh;i++) {
+			token=new StringTokenizer(br.readLine());
+			for(int j=0;j<bw;j++) {
+				b_map[i][j]=Integer.parseInt(token.nextToken());
+				if(hash_map.get(b_map[i][j])!=null) {
+					b_sum+=hash_map.get(b_map[i][j]);
+				}
+				
+			}
+		}
+		
+		DE=12;
+		System.out.println(b_sum);
+		System.out.println(h*w-b_sum);
+		
+	}
+
+}
+*/
+
+// 뭐리 입력 받아 갯수 구하는 로직
+/*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+	static BufferedReader br;
+	static StringTokenizer st;
+	//static int arr[]={1,2,1,3,5,8,1,2,5,9};
+	// 10
+	// 1 2 1 3 5 8 1 2 5 9
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		// TODO Auto-generated method stub
+		br=new BufferedReader(new InputStreamReader(System.in));
+		int Q=Integer.parseInt(br.readLine());
+		HashMap<Integer,Integer> h_map = new HashMap<>();
+		st=new StringTokenizer(br.readLine());
+		for(int i=0;i<Q;i++) {
+			int tmp=Integer.parseInt(st.nextToken());
+			if(h_map.get(tmp)!=null) {
+				h_map.put(tmp,h_map.get(tmp)+1);
+			}else {
+				h_map.put(tmp,1);
+			}
+			
+		}
+		
+		int A=Integer.parseInt(br.readLine());
+		System.out.println(h_map.get(A));
+		
 
 	}
 
 }
+*/
+
 
 /* 입력과 출력
 import java.io.*;
