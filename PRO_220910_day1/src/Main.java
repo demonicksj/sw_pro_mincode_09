@@ -1,8 +1,203 @@
 /*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+
+	}
+
+}
+*/
+
+
+//슬라이등 윈도우
+
+/*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static StringTokenizer st;
+	static int TC;
+	static int N, W;
+	static int arr[];
+	static int MAX;
+	static int DE;
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub		
+		TC=Integer.parseInt(br.readLine());
+		for(int t=1;t<=TC;t++) {
+			st = new StringTokenizer(br.readLine());
+			
+			N=Integer.parseInt(st.nextToken());
+			W=Integer.parseInt(st.nextToken());
+			
+			arr=new int[N];
+
+			st = new StringTokenizer(br.readLine());
+			for(int i=0;i<N;i++) {
+				arr[i]=Integer.parseInt(st.nextToken());
+			}
+			
+			// 슬라이딩 윈도우
+			
+			// 공통구간 세팅
+			int start=0;
+			int end=W-1;
+			int sum=0;
+			int start_i=0;
+			int end_i=0;
+			MAX=Integer.MIN_VALUE;
+			
+			for(int i=start;i<end;i++)
+				sum+=arr[i];
+			
+			// 슬라이딩 윈도우 구현
+			while(end<N) {
+				//2-1 구간완성
+				sum+=arr[end];
+				DE=12;
+				//2-2 수행
+				MAX=Integer.max(MAX,sum);
+				if(MAX==sum) {
+					start_i=start;
+					end_i=end;
+				}
+				//2-3 다음 공통구간 설정
+				sum-=arr[start];
+				//2-4 이동
+				start++;
+				end++;
+			}
+			
+			System.out.println("#"+t+" "+start_i+" "+end_i+" "+MAX);
+			
+		}
+
+	}
+
+}
+*/
+
+// 버스 주차요금 저렴한 곳 찾기(슬라이딩 윈도우)
+/*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+public class Main {
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static StringTokenizer st;
+	static int arr[]= {1,2,3,3,5,1,0,1,3};
+	static int N;
+	static int start;
+	static int end;
+	static int MIN;
+	
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		MIN=Integer.MAX_VALUE;
+		N=Integer.parseInt(br.readLine());
+		//1.공통구간 세팅(start ~ end-1 까지)
+		//start, end 포인터를 설정
+		int start=0;
+		int end=N-1;
+		int sum=0;
+		// 공통구간의 합 저장
+		for(int i=start;i<end;i++) {
+			sum+=arr[i];
+		}
+		
+		//2. 슬라이등 윈도우 구현
+		while(end<arr.length) {
+			// 2-1구간완성
+			sum+=arr[end];
+			
+			//2-2. 수행
+			MIN=Integer.min(MIN,sum);
+			//2-3. 다음 공통구간 설정
+			sum-=arr[start];
+			//2-4. 구간이동
+			start++;
+			end++;
+		}
+		System.out.println(MIN);
+	}
+
+}
+*/
+
+
+//카드 발급기
+/*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+	static BufferedReader br;
+	static StringTokenizer st;
+	static int TC;
+	static int N;
+	static int arr[];
+	static int order_arr[];
+	static int DE;
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		br=new BufferedReader(new InputStreamReader(System.in));
+		TC=Integer.parseInt(br.readLine());
+		for(int t=1;t<=TC;t++) {
+			N=Integer.parseInt(br.readLine());
+			arr=new int[N];
+			order_arr=new int[N];
+			st=new StringTokenizer(br.readLine());
+			//PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+			
+			boolean is_ture=false;
+			 
+			for(int i=0;i<N;i++) {
+				int num=Integer.parseInt(st.nextToken());
+				//pq.add(num);
+				order_arr[i]=num;
+				arr[i]=num;
+			}
+			Arrays.sort(order_arr);
+			
+			
+			
+			HashMap<Integer,Integer> h_map = new HashMap<>();
+			for(int i=N-1;i>=0;i--) {
+				//int tmp = pq.poll();
+				h_map.put(N-i,order_arr[i]);
+				DE=12;	
+			}
+			
+			
+			st=new StringTokenizer(br.readLine());
+			for(int i=0;i<N;i++) {
+				int order_num=Integer.parseInt(st.nextToken());
+				if(h_map.get(order_num) != arr[i]) {
+					is_ture=false;
+					break;
+				}else {
+					is_ture=true;
+				}
+				
+			}
+			String ret = is_ture ? "YES" : "NO";
+			System.out.println(ret);
+		}
 
 	}
 
