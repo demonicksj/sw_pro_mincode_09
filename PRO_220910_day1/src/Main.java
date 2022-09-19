@@ -12,7 +12,191 @@ public class Main {
 
 }
 */
+//예식장 서빙
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+public class Main {
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static StringTokenizer st;
+	static int T;
+	static int N, R;
+	static String ret;
+	static int arr[];
+	static int DE;
+	
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		T=Integer.parseInt(br.readLine());
+		for(int tc=1;tc<=T;tc++) {
+			boolean is_true = false;
+			
+			st=new StringTokenizer(br.readLine());
+			N=Integer.parseInt(st.nextToken());
+			R=Integer.parseInt(st.nextToken());
+			arr=new int[N];
+			
+			//1. 공통구역 설정
+			int start=0;
+			
+			int end;
+			
+			if(R%2!=0) {
+				end=(R*2+1)%N;
+			}else {
+				end=(R*2)%N;
+				
+			}
+			
+			HashMap<Integer,Integer> h_map = new HashMap<>();
+			
+			
+			st=new StringTokenizer(br.readLine());
+			for(int i=0;i<N;i++) {
+				arr[i]=Integer.parseInt(st.nextToken());
+			}
+			
+			DE=12;
+			for(int i=0;i<end;i++) {
+				int input=arr[i];
+				if(h_map.get(input)==null) {
+					is_true=true;
+					h_map.put(input,1);
+				}else {
+					if(h_map.get(input)>=2) {
+						is_true=false;
+						DE=12;
+						break;
+					}
+					is_true=true;
+					h_map.put(input,h_map.get(input)+1);
+					
+				}
+			}
+			
+			if(is_true) {
+				int cnt=0;
+				while(cnt<N) {
+					// 완전화 + 수행
+					int input=arr[end];
+					if(h_map.get(input)==null) {
+						h_map.put(input,1);
+					}else {
+						if(h_map.get(input)>=2) {
+							is_true=false;
+							DE=12;
+							break;
+						}
+						is_true=true;
+						h_map.put(input,h_map.get(input)+1);
+						
+					}
+					
+					// 다음값 셋팅
+					h_map.put(arr[start],h_map.get(arr[start])-1);
+					
+					//이동
+					start=(start+1)%N;
+					end=(end+1)%N;
+					cnt++;
+					
+				}
+				
+			}
+			 
+	
+			ret = is_true?"YES":"NO";
+			System.out.println("#"+tc+" "+ret);
+		}
+		
+
+	}
+
+}
+
+// 미확인 신호
+/*
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+public class Main {
+
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static StringTokenizer st;
+	static int T;
+	static int M;
+	static String message;
+	static String pattern;
+	static int DE;
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		T=Integer.parseInt(br.readLine());
+		for(int tc=1;tc<=T;tc++) {
+			M=Integer.parseInt(br.readLine());
+			message = br.readLine();
+			pattern="";
+			HashMap<Character,Integer> h_map = new HashMap<>();
+			
+			// 공통구간 세팅
+			int start=0;
+			int end=M-1;
+			boolean is_true = false;
+			String ret="";
+			
+			DE=12;
+			for(int i=start;i<end;i++) {
+				pattern+=message.charAt(i);
+				if(h_map.get(pattern.charAt(i))==null) {
+					h_map.put(pattern.charAt(i),1);
+
+				}else {
+					is_true = false;
+					break;
+				}
+				is_true=true;
+			}
+			
+			if(is_true) {
+				// 슬라이등 윈도우 구현
+				while(end<message.length()) {
+					pattern+=message.charAt(end);
+					// 수행
+					if(h_map.get(pattern.charAt(end))==null) {
+						h_map.put(pattern.charAt(end),1);
+
+					}else {
+						is_true = false;
+						break;
+					}
+					is_true=true;
+					//다음 공통영역설정
+					h_map.remove(pattern.charAt(start));
+					
+					// 이동
+					start++;
+					end++;
+				}
+			}
+			
+			
+			if(is_true) {
+				ret="PASS";
+			}else {
+				ret="FAIL";
+			}
+			
+			System.out.println("#"+tc+" "+ret);
+			
+		}
+
+	}
+
+}
+*/
 
 //슬라이등 윈도우
 
