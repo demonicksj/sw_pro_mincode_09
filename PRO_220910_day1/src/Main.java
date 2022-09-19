@@ -42,18 +42,18 @@ public class Main {
 				if(hash_map.get(map[i][j])!=null) {
 					int temp = hash_map.get(map[i][j])+1;
 					hash_map.put(map[i][j],temp);
-					DE=12;
 				}else {
 					hash_map.put(map[i][j],1);
 				}
 				
 			}
 		}
-		DE=12;
+		
 		token=new StringTokenizer(br.readLine());
 		bh=Integer.parseInt(token.nextToken());
 		bw=Integer.parseInt(token.nextToken());
 		b_map=new int[bh][bw];
+		HashMap<Integer,Boolean> v_check = new HashMap<>();
 		int b_sum=0;
 		
 		for(int i=0;i<bh;i++) {
@@ -61,13 +61,16 @@ public class Main {
 			for(int j=0;j<bw;j++) {
 				b_map[i][j]=Integer.parseInt(token.nextToken());
 				if(hash_map.get(b_map[i][j])!=null) {
-					b_sum+=hash_map.get(b_map[i][j]);
+					if(v_check.get(b_map[i][j])==null){
+						v_check.put(b_map[i][j], true);
+						b_sum+=hash_map.get(b_map[i][j]);
+					}
+					
 				}
 				
 			}
 		}
 		
-		DE=12;
 		System.out.println(b_sum);
 		System.out.println(h*w-b_sum);
 		
