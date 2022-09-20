@@ -12,6 +12,7 @@ public class Main {
 }
 */
 
+/*
 import java.util.*;
 import java.io.*;
 
@@ -23,6 +24,7 @@ public class Main {
 	}
 
 }
+*/
 
 //Quiz N을 입력받으면 1~N까지 입력하는 프로그램
 /*
@@ -39,18 +41,45 @@ public class Main {
 
 		N=Integer.parseInt(br.readLine());
 		
-		f_quiz(1);
+		f_quiz1(1);
+		System.out.println("===========");
+		f_quiz2(1);
+		System.out.println("===========");
+		f_quiz3(1);
 
 	}
 	
-	static void f_quiz(int n) {
+	static void f_quiz1(int n) {
 		if(n>N) {
 			return;
 		}
 		DE=12;
 		
 		System.out.println(n);
-		f_quiz(n+1);
+		f_quiz1(n+1);
+		
+	}
+	
+	static void f_quiz2(int n) {
+		if(n>N) {
+			return;
+		}
+		
+		f_quiz2(n+1);
+		System.out.println(n);
+		
+	}
+	
+	static void f_quiz3(int n) {
+		if(n>N) {
+			return;
+		}
+		System.out.println(n);
+		f_quiz3(n+1);
+		if(n==N) {
+			return;
+		}
+		System.out.println(n);
 		
 	}
 
