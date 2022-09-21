@@ -10,6 +10,92 @@ public class Main {
 
 }
 */
+// 장난감 조립
+
+import java.util.*;
+import java.io.*;
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static StringTokenizer st;
+	
+	static int N; // 완제품 번호
+	static int T;
+	static int DE;
+	//static int SUM;
+	//static int limit;
+	//static int ret[];
+	static ArrayList<Node> al[];
+	static HashMap<Integer, Integer> ret_map=new HashMap<>();
+	static boolean visited[];
+	
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		
+		N=Integer.parseInt(br.readLine());
+		T=Integer.parseInt(br.readLine());
+		
+		visited=new boolean[N+1];
+		al=new ArrayList[N+1];
+		for(int i=0;i<=N;i++)
+			al[i]=new ArrayList<>();
+		
+		
+		for(int i=0;i<T;i++) {
+			st=new StringTokenizer(br.readLine());
+			int from=Integer.parseInt(st.nextToken());
+			int to=Integer.parseInt(st.nextToken());
+			int cost=Integer.parseInt(st.nextToken());
+			DE=12;
+			al[from].add(new Node(to, cost));
+		}
+		
+		//limit=0;
+		for(int i=1;i<=N;i++) {
+			if(al[i].isEmpty()) ret_map.put(i,0);
+		}
+		//ret=new int[limit];
+		
+		visited[N]=true;
+		dfs(N, 1);
+		
+		for(int i=1;i<=N;i++) {
+			if(ret_map.get(i)!=null)
+				System.out.println(i+" "+ret_map.get(i));
+		}
+		
+
+	}
+	
+	static void dfs(int node, int sum) {
+		//if(node>0&&node<ret_map.size()) {
+			//ret[node]+=sum;
+			//ret_map.put(node, ret_map.get(node)+1);
+		//}
+		if(ret_map.get(node)!=null) {
+			ret_map.put(node, ret_map.get(node)+sum);
+		}
+		
+		for(int index=0;index<al[node].size();index++) {
+			Node next = al[node].get(index);
+			if(visited[next.to]) continue;
+			visited[next.to]=true;
+			dfs(next.to, sum*next.cost);
+			visited[next.to]=false;
+		}
+		
+	}
+	
+
+}
+
+class Node{
+	int to, cost;
+	Node(int to, int cost){
+		this.to=to;
+		this.cost=cost;
+	}
+}
+
 // 해밀턴 회로
 /*
 import java.util.*;
@@ -174,7 +260,7 @@ public class Main {
 		}
 		
 		visited[start]=true;
-		System.out.print(start+" ");
+		//System.out.print(start+" ");
 		dfs(start);
 		
 		Arrays.fill(visited,false);
@@ -187,6 +273,7 @@ public class Main {
 	}
 	
 	static void dfs2(int current) {
+		
 		if(al[current].isEmpty()) {
 			return;
 		}
@@ -198,17 +285,17 @@ public class Main {
 			if(visited[next]) continue;
 			
 			visited[next]=true;
-			DE=12;
 			
-			dfs(next);
-			DE=12;
+			dfs2(next);
+			
 			System.out.print(next+" ");
-			//visited[next]=false;
 		}
+		
 		
 	}
 
 	static void dfs(int current) {
+		System.out.print(current+" ");
 		if(al[current].isEmpty())
 			return;
 		
@@ -218,7 +305,6 @@ public class Main {
 			if(visited[next]) continue;
 			
 			visited[next]=true;
-			System.out.print(next+" ");
 			dfs(next);
 			//visited[next]=false;
 		}
