@@ -25,6 +25,8 @@ public class Main {
 	
 	static int N;
 	static char MAP[][];
+	static int MAP_A[][];
+	static int MAP_L[][];
 	static int AY, AX;
 	static int LY, LX;
 	static boolean visited[][];
@@ -33,6 +35,7 @@ public class Main {
 	static int dc[]= {0,0,-1,1};
 	static String AN[]=new String[4];
 	static String LN[]=new String[4];
+	static int MIN;
 	static int ret;
 	static int DE;
 	
@@ -40,16 +43,17 @@ public class Main {
 		// TODO Auto-generated method stub
 		N=Integer.parseInt(br.readLine());
 		MAP=new char[N][N];
+		MAP_A=new int[N][N];
+		MAP_L=new int[N][N];
 		visited=new boolean[N][N];
 		visited2=new boolean[N][N];
 		for(int i=0;i<N;i++) {
-			//st=new StringTokenizer(br.readLine());
 			String tmp=br.readLine();
 			for(int j=0;j<N;j++) {
 				MAP[i][j]=tmp.charAt(j);
 			}
 		}
-		
+		MIN=Integer.MAX_VALUE;
 		st=new StringTokenizer(br.readLine());
 		AY=Integer.parseInt(st.nextToken());
 		AX=Integer.parseInt(st.nextToken());
@@ -60,7 +64,21 @@ public class Main {
 		visited2[LY][LX]=true;
 		ret=0;
 		bfs();
-		System.out.println(ret);
+		//System.out.println(ret);
+		DE=12;
+		for(int i=0;i<N;i++) {
+			for(int j=0;j<N;j++) {
+				if(MAP_A[i][j]<=MAP_L[i][j]&&MAP_A[i][j]!=0) {
+					DE=12;
+					MIN=Integer.min(MIN,MAP_L[i][j]);
+				}
+				if(MAP_A[i][j]>MAP_L[i][j]&&MAP_L[i][j]!=0) {
+					MIN=Integer.min(MIN,MAP_A[i][j]);
+				}
+			}
+		}
+		
+		System.out.println(MIN);
 
 	}
 	
@@ -73,28 +91,34 @@ public class Main {
 		
 
 		boolean find=false;
-		while(!AQ.isEmpty()&&!find) {
+		while(!AQ.isEmpty()&&!find&&!LQ.isEmpty()) {
 			Node A_curr = AQ.poll();
 			Node L_curr = LQ.poll();
 			
+			MAP_A[A_curr.r][A_curr.c]=A_curr.d;
+			MAP_L[L_curr.r][L_curr.c]=L_curr.d;
 			DE=12;
+			/*
+			if(MAP_A[L_curr.r][L_curr.c]==A_curr.d&&MAP_A[L_curr.r][L_curr.c]!=0) {
+				find = true;
+				ret=A_curr.d;
+				break;
+			}
 			
-			//if(A_curr.r==L_curr.r&&A_curr.c==L_curr.c) {
-				//ret=A_curr.d;
-				//break;
-			//}
-			Arrays.fill(AN, "");
-			Arrays.fill(LN, "");
+			if(MAP_L[A_curr.r][A_curr.c]==L_curr.d&&MAP_L[A_curr.r][A_curr.c]!=0) {
+				find = true;
+				ret=L_curr.d;
+				break;
+			}
+			*/
 			
 			for(int i=0;i<4;i++) {
 				int A_nr=A_curr.r+dr[i];
 				int A_nc=A_curr.c+dc[i];
-
 				
 				if(A_nr<0||A_nr>=N||A_nc<0||A_nc>=N) continue;
 				if(visited[A_nr][A_nc]) continue;
 				if(MAP[A_nr][A_nc]=='#')continue;
-				AN[i]=A_nr+""+A_nc;
 				visited[A_nr][A_nc]=true;
 				AQ.add(new Node(A_nr,A_nc,A_curr.d+1));
 				
@@ -106,22 +130,10 @@ public class Main {
 				if(L_nr<0||L_nr>=N||L_nc<0||L_nc>=N) continue;
 				if(visited2[L_nr][L_nc]) continue;
 				if(MAP[L_nr][L_nc]=='#')continue;
-				LN[i]=L_nr+""+L_nc;
 				visited2[L_nr][L_nc]=true;
 				LQ.add(new Node(L_nr,L_nc,L_curr.d+1));
 			}
 			DE=12;
-			for(int k=0;k<4;k++) {
-				for(int j=0;j<4;j++) {
-					if(AN[k]!=""&&LN[j]!="") {
-						if(AN[k].equals(LN[j])) {
-							ret=A_curr.d+1;
-							find=true;
-							break;
-						}
-					}
-				}
-			}
 			
 		}
 		
